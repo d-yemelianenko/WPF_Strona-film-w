@@ -1,0 +1,35 @@
+﻿<Window x:Class="Strona_filmów.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Strona_filmów"
+        mc:Ignorable="d"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="MainWindow" Height="370" Width="800">
+
+    <Grid Background="#74F1F6" Margin="0,10,0,-6" >
+        <Border MinWidth="400" Margin="26,26,26,0" Padding="30" Background="#E9FEFF" VerticalAlignment="Top" CornerRadius="20" Height="298" RenderTransformOrigin="0.49,0.279">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="30" Color="LightBlue" ShadowDepth="5" ></DropShadowEffect>
+            </Border.Effect>
+
+            <StackPanel   >
+                <Label Content="Cześć!" FontSize="30"></Label>
+
+
+                <Grid >
+                    <Button Click="Btn_Regist" HorizontalAlignment="Left" Content="Registr"  Grid.ColumnSpan="3" Height="32" VerticalAlignment="Bottom" Cursor="Hand"/>
+                    <Button Click="Btn_Strona"   HorizontalAlignment="Right" Content="Strona głowna" Style="{StaticResource MaterialDesignFlatButton}"  Grid.Column="3" Cursor="Hand"/>
+                </Grid>
+
+                <TextBox x:Name="Login"  materialDesign:HintAssist.Hint="lodin" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Height="35" Cursor="Arrow" />
+                <PasswordBox x:Name="Password" materialDesign:HintAssist.Hint="napisz hasło" Height="31" />
+                <PasswordBox x:Name="Password2" materialDesign:HintAssist.Hint="powtóż hasło" Height="33"  />
+                <Button Click="BtnClick_Reg" Content="Registracja" Margin="0 20"  Height="Auto" Cursor="Hand"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+
+</Window>
