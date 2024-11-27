@@ -23,9 +23,9 @@
                     <Button Click="Btn_Strona"   HorizontalAlignment="Right" Content="Strona głowna" Style="{StaticResource MaterialDesignFlatButton}"  Grid.Column="3" Cursor="Hand"/>
                 </Grid>
 
-                <TextBox x:Name="Login"  materialDesign:HintAssist.Hint="lodin" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Height="35" Cursor="Arrow" />
-                <PasswordBox x:Name="Password" materialDesign:HintAssist.Hint="napisz hasło" Height="31" />
-                <PasswordBox x:Name="Password2" materialDesign:HintAssist.Hint="powtóż hasło" Height="33"  />
+                <TextBox x:Name="txtBox_Login"  materialDesign:HintAssist.Hint="lodin"  Cursor="Arrow" />
+                <PasswordBox x:Name="txtBox_Password" materialDesign:HintAssist.Hint="napisz hasło" Cursor="Arrow" />
+
                 <Button Click="BtnClick_Reg" Content="Registracja" Margin="0 20"  Height="Auto" Cursor="Hand"/>
 
             </StackPanel>

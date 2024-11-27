@@ -29,10 +29,7 @@ namespace Strona_filmów
         {
             InitializeComponent();
 
-            
         }
-
-      
 
         private void Btn_Strona(object sender, RoutedEventArgs e)
         {
@@ -41,20 +38,18 @@ namespace Strona_filmów
             
         }
 
-
         private void BtnClick_Reg(object sender, RoutedEventArgs e)
-        {   
-            
-            string connectionstring = "server=localhost;port=3306;username=root;password=;database=filmy;";
+        {
+
+            string connectionstring = "server=localhost;port=3306;username=root;password=;database=films;";
             string query = "INSERT INTO users ( `Login`, `Password`) VALUES ( @log,@pass)";
-            
+
             MySqlConnection dbconnection = new MySqlConnection(connectionstring);
-            MySqlCommand command = new MySqlCommand(query,dbconnection);
+            MySqlCommand command = new MySqlCommand(query, dbconnection);
 
-            command.Parameters.Add("@log", MySqlDbType.VarChar).Value = Login.Text;
-            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = Password.Password;
-            
-
+            command.Parameters.Add("@log", MySqlDbType.VarChar).Value = txtBox_Login.Text;
+            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = txtBox_Password.Password;
+            Autor aut = new Autor();
             try
             {
                 

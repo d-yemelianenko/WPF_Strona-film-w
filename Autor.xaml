@@ -14,17 +14,11 @@
                 <DropShadowEffect BlurRadius="30" Color="LightBlue" ShadowDepth="5" ></DropShadowEffect>
             </Border.Effect>
 
-            <StackPanel   >
+            <StackPanel>
                 <Label FontSize="30">Autoryzacja</Label>
-
-                <Grid >
-                    <Button Click="Button_Click_1" HorizontalAlignment="Left" Content="Registr"  Grid.ColumnSpan="3" Height="32" VerticalAlignment="Bottom"/>
-                    <Button    HorizontalAlignment="Right" Content="Strona głowna" Style="{StaticResource MaterialDesignFlatButton}"  Grid.Column="3" Cursor="Hand"/>
-                </Grid>
-
-                <TextBox x:Name="txtBox_Login"  materialDesign:HintAssist.Hint="lodin" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="Arrow" />
-                <PasswordBox x:Name="txtBox_Password" materialDesign:HintAssist.Hint="napisz hasło" Cursor="Arrow" />
-
+                <TextBox x:Name="Login"  materialDesign:HintAssist.Hint="lodin" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Height="35" Cursor="Arrow" />
+                <PasswordBox x:Name="Password" materialDesign:HintAssist.Hint="napisz hasło" Height="31" />
+                <PasswordBox x:Name="Password2" materialDesign:HintAssist.Hint="powtóż hasło" Height="33"  />
                 <Button Click="BtnLogin_Click" Content="Autoryzacja" Margin="0 20"  Height="Auto" Cursor="Hand" />
 
             </StackPanel>

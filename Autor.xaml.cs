@@ -17,71 +17,74 @@ using MySql.Data.MySqlClient;
 
 namespace Strona_filmów
 {
-    
+
     /// <summary>
     /// Logika interakcji dla klasy Autor.xaml
     /// </summary>
     public partial class Autor : Window
     {
-       
+        List<MovieModel> listPlace = new List<MovieModel>();
         public Autor()
-        { 
+        {
             InitializeComponent();
 
-            
-        }
+        }    
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            string connectionstring = "server=localhost;port=3306;username=root;password=;database=films;";
-            string query = "INSERT INTO users ( `Login`, `Password`) VALUES ( @log,@pass)";
-
-            MySqlConnection dbconnection = new MySqlConnection(connectionstring);
-            MySqlCommand command = new MySqlCommand(query, dbconnection);
-
-            command.Parameters.Add("@log", MySqlDbType.VarChar).Value = txtBox_Login.Text;
-            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = txtBox_Password.Password;
-            Autor aut = new Autor();
-
-            try
+            // Sprawdzanie, czy oba pola hasła są zgodne
+            if (Password.Password != Password2.Password)
             {
-                dbconnection.Open();
-                MySqlDataReader myReader = command.ExecuteReader();
-                MessageBox.Show("Autoryzacja jest");
-                dbconnection.Close();
-                Glowna autor = new Glowna();
-                autor.Show();
-                Hide();
-                
+                MessageBox.Show("Hasła nie są zgodne. Spróbuj ponownie.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            catch (Exception ex)
+
+            // Sprawdzanie, czy login i hasło są wypełnione
+            if (string.IsNullOrWhiteSpace(Login.Text) || string.IsNullOrWhiteSpace(Password.Password))
             {
-                MessageBox.Show("Bląd autoryzacji");             
-                MainWindow autor = new MainWindow();
-                autor.Show();
-                Hide();
+                MessageBox.Show("Login i hasło nie mogą być puste.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            aut.Close();
-        }
-          
-       
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
+            // Łączenie się z bazą danych
+            string connectionstring = "server=localhost;port=3306;username=root;password=;database=filmy;";
+            string query = "INSERT INTO users (`Login`, `Password`) VALUES (@log, @pass)";
+
+            using (MySqlConnection dbconnection = new MySqlConnection(connectionstring))
+            {
+                MySqlCommand command = new MySqlCommand(query, dbconnection);
+                command.Parameters.Add("@log", MySqlDbType.VarChar).Value = Login.Text;
+                command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = Password.Password;
+
+                try
+                {
+                    dbconnection.Open();
+                    command.ExecuteNonQuery(); // Wykonujemy zapytanie SQL (bez użycia `MySqlDataReader`, bo nie odczytujemy danych)
+
+                    MessageBox.Show("Rejestracja zakończona sukcesem!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Przechodzimy do głównego okna po rejestracji
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    Close(); // Zamykamy aktualne okno
+                }
+                catch (MySqlException ex)
+                {
+                    // Obsługa wyjątków bazy danych
+                    MessageBox.Show($"Wystąpił błąd podczas rejestracji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    // Zamykanie połączenia w razie potrzeby
+                    if (dbconnection.State == System.Data.ConnectionState.Open)
+                    {
+                        dbconnection.Close();
+                    }
+                }
+            }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
-    
-
-    
-       
-            
-
-
 
 }
 
