@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,56 +32,69 @@ namespace Strona_filmów
 
         }
 
-        private void Btn_Strona(object sender, RoutedEventArgs e)
-        {
-            Glowna autor = new Glowna();
-            autor.Show();
-            
-        }
 
         private void BtnClick_Reg(object sender, RoutedEventArgs e)
         {
+            string login = txtBox_Login.Text.Trim();
+            string password = txtBox_Password.Password;
 
-            string connectionstring = "server=localhost;port=3306;username=root;password=;database=films;";
-            string query = "INSERT INTO users ( `Login`, `Password`) VALUES ( @log,@pass)";
-
-            MySqlConnection dbconnection = new MySqlConnection(connectionstring);
-            MySqlCommand command = new MySqlCommand(query, dbconnection);
-
-            command.Parameters.Add("@log", MySqlDbType.VarChar).Value = txtBox_Login.Text;
-            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = txtBox_Password.Password;
-            Autor aut = new Autor();
-            try
+            // Sprawdzanie, czy pola są wypełnione
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
-                
-                dbconnection.Open();
-                MySqlDataReader myReader = command.ExecuteReader(); 
-               
-                MessageBox.Show("Rigistracja jest");
-                dbconnection.Close();
-                Glowna autor = new Glowna();
-                autor.Show();
-                Hide();
+                MessageBox.Show("Login i hasło nie mogą być puste!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            catch (Exception ex)
+
+            string connectionString = "server=localhost;port=3306;username=root;password=;database=filmy;";
+            string query = "SELECT COUNT(*) FROM users WHERE `Login` = @log AND `Password` = @pass";
+
+            using (MySqlConnection dbConnection = new MySqlConnection(connectionString))
             {
-                MessageBox.Show("Bląd registracji");
-                Autor autor = new Autor();
-                autor.Show();
-                Hide();
+                MySqlCommand command = new MySqlCommand(query, dbConnection);
+                command.Parameters.Add("@log", MySqlDbType.VarChar).Value = login;
+                command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = password;
+
+                try
+                {
+                    dbConnection.Open();
+                    int userCount = Convert.ToInt32(command.ExecuteScalar()); // Sprawdzamy, czy użytkownik istnieje
+
+                    if (userCount > 0)
+                    {
+                        MessageBox.Show("Logowanie zakończone sukcesem!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Przechodzimy do strony głównej
+                        Glowna glowna = new Glowna();
+                        glowna.Show();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nie znaleziono użytkownika. Przejście do strony rejestracji.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Przeniesienie do strony rejestracji
+                        Autor autor = new Autor();
+                        autor.Show();
+                        Close();
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show($"Błąd logowania: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-              
         }
 
-        private void Btn_Regist(object sender, RoutedEventArgs e)
+
+
+
+        private void Btn_Autoryzacja(object sender, RoutedEventArgs e)
         {
-            Autor autor = new Autor();
-            autor.Show();
-
+            Autor autoryzacja= new Autor();
+            autoryzacja.Show();
+            Close();
         }
-
     }
-      
 }
 
 

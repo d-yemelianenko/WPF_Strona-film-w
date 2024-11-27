@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using System.Data.Common;
 
 namespace Strona_filmów
 {
@@ -28,7 +29,14 @@ namespace Strona_filmów
         {
             InitializeComponent();
 
-        }    
+        }
+
+        private void Btn_Regist(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            main.Show();
+            Close();
+        }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -59,14 +67,14 @@ namespace Strona_filmów
                 try
                 {
                     dbconnection.Open();
-                    command.ExecuteNonQuery(); // Wykonujemy zapytanie SQL (bez użycia `MySqlDataReader`, bo nie odczytujemy danych)
+                    command.ExecuteNonQuery(); // Dodajemy użytkownika do bazy
+                    MySqlDataReader myReader = command.ExecuteReader();
 
                     MessageBox.Show("Rejestracja zakończona sukcesem!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    // Przechodzimy do głównego okna po rejestracji
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
-                    Close(); // Zamykamy aktualne okno
+                    // Przechodzimy do strony głównej
+                    Glowna glowna = new Glowna();
+                    glowna.Show();
+                    Close();
                 }
                 catch (MySqlException ex)
                 {
