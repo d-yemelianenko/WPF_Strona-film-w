@@ -45,45 +45,49 @@ namespace Strona_filmów
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            MovieModel place = new MovieModel();
+            if (cmbListView.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz film do edycji.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            MovieModel place = listMovie[cmbListView.SelectedIndex]; // Pobierz wybrany film
             place.Nazwa = txtNazwa.Text;
             place.Rok = txtRok.Text;
             place.Autor = txtAutor.Text;
-            place.PhotoName = txtNazwa.Text ;
 
-            MySqlConnection dbConnection = new MySqlConnection("server=localhost;port=3306;username=root;password=;database=filmy");
+            string connectionString = "server=localhost;port=3306;username=root;password=;database=filmy;";
+            string updateQuery = "UPDATE filmy SET Nazwa = @N, Rok = @R, Autor = @A WHERE Id = @Id";
 
-            dbConnection.Open();
-            string dbQuery = "INSERT INTO filmy  VALUES (NULL, @N, @R, @A, @P)";
-
-            MySqlCommand cmd = new MySqlCommand(dbQuery, dbConnection);
-            cmd.CommandType = CommandType.Text;
-            cmd.Parameters.Add("@N", MySqlDbType.VarChar).Value = place.Nazwa;
-            cmd.Parameters.Add("@R", MySqlDbType.VarChar).Value = place.Rok;
-            cmd.Parameters.Add("@A", MySqlDbType.VarChar).Value = place.Autor;
-            cmd.Parameters.Add("@P", MySqlDbType.VarChar).Value = place.PhotoName;
-
-            
-             try
+            using (MySqlConnection dbConnection = new MySqlConnection(connectionString))
             {
-                string dQuery="UPADATE Filmy SET Nazwa = '{0}', Rok = '{1}', Autor = '{2}', PhotoName = '{3} WHERE Id = {4}, place.Nazwa, place.Rok, place.Autor, place.PhotoName";
-                MySqlCommand md = new MySqlCommand(dQuery, dbConnection);
-                md.CommandType = CommandType.Text;
-
-                if (cmd.ExecuteNonQuery() == 1)
+                using (MySqlCommand cmd = new MySqlCommand(updateQuery, dbConnection))
                 {
-                    MessageBox.Show("Added Successfully", "Information", MessageBoxButton.OK);
-                    dbConnection.Close();
+                    cmd.Parameters.Add("@N", MySqlDbType.VarChar).Value = place.Nazwa;
+                    cmd.Parameters.Add("@R", MySqlDbType.VarChar).Value = place.Rok;
+                    cmd.Parameters.Add("@A", MySqlDbType.VarChar).Value = place.Autor;
+                    cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = place.Id;
+
+                    try
+                    {
+                        dbConnection.Open();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Film został zaktualizowany pomyślnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Nie udało się zaktualizować filmu. Sprawdź dane.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Wystąpił błąd: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
-
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("Wystąpił błąd", "Error", MessageBoxButton.OK);
-
-            }
-
-
         }
 
 
@@ -118,23 +122,39 @@ namespace Strona_filmów
                 }
             }
         }
-
         private void cmbListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (cmbListView.SelectedItem != null)
             {
+                // Pobieranie danych wybranego filmu
                 txtNazwa.Text = listMovie[cmbListView.SelectedIndex].Nazwa;
                 txtRok.Text = listMovie[cmbListView.SelectedIndex].Rok;
                 txtAutor.Text = listMovie[cmbListView.SelectedIndex].Autor;
-                if (listMovie[cmbListView.SelectedIndex].PhotoName != string.Empty)
-                {
-                    // string photoPath = System.IO.Path.Combine(SQLiteAccess.dbFileDirectory, listMovie[cmbListView.SelectedIndex].PhotoName);
-                    string path = "C:\\Users\\Dasza\\Desktop\\app filmy\\" +  listMovie[cmbListView.SelectedIndex].PhotoName;
-                    Uri fileUri = new Uri(path);
-                    imgPhoto.Source = new BitmapImage(fileUri);
-                }
+
+                // Wyświetlanie zdjęcia
+              
+                        // Ścieżka do zdjęcia
+                        string photoPath = System.IO.Path.Combine("C:\\Users\\Dasha\\Desktop\\app filmy\\", listMovie[cmbListView.SelectedIndex].PhotoName);
+
+                        // Sprawdzanie, czy plik istnieje
+                        if (File.Exists(photoPath))
+                        {
+                            imgPhoto.Source = new BitmapImage(new Uri(photoPath, UriKind.Absolute));
+                        }
+                        else
+                        {
+                            imgPhoto.Source = null; // Usuwamy obraz, jeśli pliku nie ma
+                            MessageBox.Show($"Zdjęcie '{listMovie[cmbListView.SelectedIndex].PhotoName}' nie istnieje w katalogu.",
+                                "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+         
             }
         }
+
     }
+
+
+
+
 
 }

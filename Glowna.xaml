@@ -30,9 +30,9 @@
             <Label Grid.Row="0" Grid.Column="3" Content="Rok: " FontWeight="Bold"/>
             <ComboBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                   Name="cmbListView" DropDownOpened="cmbListView_DropDownOpened" 
-                  SelectionChanged="cmbListView_SelectionChanged"/>
+                  SelectionChanged="cmbListView_SelectionChanged" Margin="-5,8,5,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
 
-            <TextBox Grid.Row="1" Grid.Column="2" Name="txtNazwa" Cursor="Arrow" />
+            <TextBox Grid.Row="1" Grid.Column="2" Name="txtNazwa" Cursor="Arrow"/>
             <TextBox Grid.Row="1" Grid.Column="3" Name="txtRok" />
             <Image Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Name="imgPhoto"/>
             <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Name="txtAutor"/>
@@ -45,35 +45,6 @@
                 Content="Zamknij" Margin="2" Click="btnClose_Click" Style="{StaticResource MaterialDesignFlatButton}"/>
             <Button  Grid.Row="3" Grid.Column="2" Name="btnDelete"
                 Content="Usuń wpis" Margin="10,2,184,-1" Click="btnDelete_Click" Grid.ColumnSpan="2"/>
-
-
-
-            <!-- <StackPanel   Background="#E9FEFF" Margin="10 15 10 15 ">
-            <TextBox Text="Cześ!" FontSize="30"></TextBox>
-            <Label Content="Filtr:" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-            <Button Click="Button_Click_2" Content="Filtruj" Width="150" HorizontalAlignment="Right"/>
-            <Label Content="Rodzaj filmu" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-            <ComboBox x:Name="genderFilter" Width="196" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="-1.413,-08" >
-                <TextBlock><Run Text="Мужской"/></TextBlock>
-                <TextBlock><Run Text="Женский"/></TextBlock>
-            </ComboBox>
-            <Label Content="Poszuk:" />
-            <TextBox x:Name="nameFilter" Height="23" TextWrapping="Wrap" Text=""/>
-            <ListView x:Name="userList" Margin="5,33,10,10" Height="45" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Nazwa" Width="150" DisplayMemberBinding="{Binding name}"/>
-                        <GridViewColumn Header="Rok filmu" Width="200" DisplayMemberBinding="{Binding dataOfBirth}"/>
-                        <GridViewColumn Header="Rodzaj" Width="200" DisplayMemberBinding="{Binding age}"/>
-                        <GridViewColumn Header="poster" Width="100" DisplayMemberBinding="{Binding gender}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            <Grid>
-                <Button Click="Button_Click" HorizontalAlignment="Left" Content="Registr"   Height="32" VerticalAlignment="Bottom" Margin="0,0,0,-76" RenderTransformOrigin="0.643,-0.569"/>
-                <Button Click="Button_Click_1"   HorizontalAlignment="Right" Content="Strona głowna" Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" Margin="0,76,9,-76"/>
-            </Grid>
-        </StackPanel>-->
 
         </Grid>
     </Grid>

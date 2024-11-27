@@ -87,7 +87,7 @@ namespace Strona_filmów
                     while (dbCommand.ExecuteNonQuery() == 1)
                     {
 
-                        dbQuery = string.Format("INSERT INTO filmy VALUES( NULL,'{0}', '{1}', '{2}', '{3}' )", item.Nazwa, item.Rok, item.Autor, item.PhotoName);
+                        dbQuery = string.Format("INSERT INTO filmy VALUES( NULL,'{0}', '{1}', '{2}' . '{3}' )", item.Nazwa, item.Rok, item.Autor ,item.PhotoName);
                         dbCommand.CommandText = dbQuery;
                         if (dbCommand.ExecuteNonQuery() == 0)
                         {
@@ -156,9 +156,9 @@ namespace Strona_filmów
                     MySqlDataReader dr = dbCommand.ExecuteReader();
 
                     while (dbCommand.ExecuteNonQuery() == 1)
-                    { 
-                        
-                    dbQuery = string.Format("UPADATE Filmy SET Nazwa = '{0}', Rok = '{1}', Autor = '{2}', PhotoName = '{3} WHERE Id = {4}", item.Nazwa, item.Rok, item.Autor, item.PhotoName);
+                    {
+
+                        dbQuery = string.Format("UPADATE Filmy SET Nazwa = '{0}', Rok = '{1}', Autor = '{2}' , PhotoName = '{3}' WHERE Id = {4}", item.Nazwa, item.Rok, item.Autor,item.PhotoName);
                     dbCommand.CommandText = dbQuery;
 
                         

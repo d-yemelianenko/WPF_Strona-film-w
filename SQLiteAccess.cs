@@ -17,7 +17,7 @@ namespace Strona_filmów
         private static string _connectionString = string.Format("Data Source = {0}", dbFilePath);
        
 
-        MySqlConnection dbConnection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;database=films");
+        MySqlConnection dbConnection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;database=filmy");
         
         public void openConnection()
                     {
@@ -56,7 +56,7 @@ namespace Strona_filmów
 
                 while (dr.Read())
                 {
-                   MovieModel films = new MovieModel()
+                   MovieModel filmy = new MovieModel()
                     {
                         Id = Convert.ToInt32(dr["Id"]),
                         Nazwa = dr["Nazwa"].ToString(),
@@ -64,7 +64,7 @@ namespace Strona_filmów
                         Autor = dr["Autor"].ToString(),
                         PhotoName = dr["PhotoName"].ToString()
                     };
-                    listMovie.Add(films);
+                    listMovie.Add(filmy);
                 }
             }
             dbConnection.Close();
