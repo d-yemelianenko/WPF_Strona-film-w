@@ -45,49 +45,9 @@ namespace Strona_filmów
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbListView.SelectedItem == null)
-            {
-                MessageBox.Show("Wybierz film do edycji.", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            MovieModel place = listMovie[cmbListView.SelectedIndex]; // Pobierz wybrany film
-            place.Nazwa = txtNazwa.Text;
-            place.Rok = txtRok.Text;
-            place.Autor = txtAutor.Text;
-
-            string connectionString = "server=localhost;port=3306;username=root;password=;database=filmy;";
-            string updateQuery = "UPDATE filmy SET Nazwa = @N, Rok = @R, Autor = @A WHERE Id = @Id";
-
-            using (MySqlConnection dbConnection = new MySqlConnection(connectionString))
-            {
-                using (MySqlCommand cmd = new MySqlCommand(updateQuery, dbConnection))
-                {
-                    cmd.Parameters.Add("@N", MySqlDbType.VarChar).Value = place.Nazwa;
-                    cmd.Parameters.Add("@R", MySqlDbType.VarChar).Value = place.Rok;
-                    cmd.Parameters.Add("@A", MySqlDbType.VarChar).Value = place.Autor;
-                    cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = place.Id;
-
-                    try
-                    {
-                        dbConnection.Open();
-                        int rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Film został zaktualizowany pomyślnie.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Nie udało się zaktualizować filmu. Sprawdź dane.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Wystąpił błąd: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-            }
+            Update newWindow = new Update();
+            newWindow.ShowDialog();
+           
         }
 
 

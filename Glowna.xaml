@@ -40,7 +40,7 @@
             <Button  Grid.Row="3" Grid.Column="0" Name="btnCreate"
                 Content="Nowy wpis" Margin="2" Click="btnCreate_Click"/>
             <Button  Grid.Row="3" Grid.Column="1" Name="btnUpdate"
-                Content="Zmień wpis" Margin="2" Click="btnUpdate_Click" Style="{StaticResource MaterialDesignFlatButton}"/>
+                Content="Zmień wpis" Margin="2" Click="btnUpdate_Click"/>
             <Button  Grid.Row="3" Grid.Column="3" Name="btnClose"
                 Content="Zamknij" Margin="2" Click="btnClose_Click" Style="{StaticResource MaterialDesignFlatButton}"/>
             <Button  Grid.Row="3" Grid.Column="2" Name="btnDelete"
